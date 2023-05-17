@@ -1,77 +1,87 @@
-import { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 
 function App() {
-  let [num, setNum] = useState("");
-  let [add, setAdd] = useState(0);
-  let [sub, setSub] = useState(0);
-  let [multiply, setMultiply] = useState(0);
-  let [divide, setDivide] = useState(0);
+  // useRef state
+  const [sumState, setSumState] = useState("");
+  const previousSumRef = useRef(0);
 
+  //sum state
+  const [add, setAdd] = useState("");
 
-  let handleAdd = (e) => {
-    setNum(e.target.value);
+  //Minus state
+  const [minus, setMinus] = useState("");
+  const [minusStare, setMinusState] = useState("");
+  const previousMinusRef = useRef(0);
 
+  //Maltiply state
+  const [maltiplay, setMaltiply] = useState("");
+  const [maltiplyState, setMaltiplyState] = useState("");
+  const previousMaltiplyRef = useRef(0);
+
+  //Maltiply
+  // const [maltiplyStare, setMaltiplyState] = useState('');
+  // const previousMinusRef = useRef(0);
+
+  //sum
+  const handleAdd = (e) => {
+    setSumState(e.target.value);
   };
-  let handleSub = (e) => {
-    setSub(e.target.value);
+
+  let handleAddClick = () => {
+    if (minusStare === "") {
+      setAdd(parseInt(previousSumRef.current) + parseInt(sumState));
+      // console.log(parseInt(previousSumRef.current) + parseInt(sumState));
+      previousSumRef.current = sumState;
+      console.log("pascche");
+      
+      // setSumState("");
+    } else if (sumState === "") {
+      setMinus(parseInt(previousSumRef.current) - parseInt(minusStare));
+      console.log("ami int:", parseInt(previousSumRef.current) - parseInt(minusStare));
+      previousMinusRef.current = minusStare;
+      // setMinusState("");
+      console.log("pacche too");
+    } 
     
-  };
-  let handleMul = (e) => {
-    setMultiply(e.target.value);
-  };
-  let handleDiv = (e) => {
-    setDivide(e.target.value);
-  };
-
-  let addition = (a,b) => {
-    return a + b
-  }
-  let substitution = (a,b) => {
-    return a - b
-  }
-  let multiplyFunc = (a,b) => {
-    return a * b
-  }
-  let Divide = (a,b) => {
-    return a / b
-  }
-
-  let handleClick = () => {
-
-    if(! num == ""){
-      setAdd(num);
+    if(true) {
+      console.log(maltiplyState ,previousSumRef.current);
+      setMaltiply(parseInt(previousSumRef.current) * parseInt(maltiplyState));
+      console.log(parseInt(previousSumRef.current) * parseInt(maltiplyState));
+      previousMaltiplyRef.current = maltiplyState;
+      console.log("pacche three");
+      
+      // setMaltiplyState("");
     }
-
-    if(num == ""){
-      setSub(num);
-      console.log(num)
-    }
-    
   };
 
- 
-  
+  //minus
+
+  let handleMinus = (e) => {
+    setMinusState(e.target.value);
+  };
+  //maltiply
+
+  let handleMaltiply = (e) => {
+    setMaltiplyState(e.target.value);
+  };
+
+  // let handleClear = () => {
+  //   setSumState("");
+  //   setMinusState("");
+  // };
 
   return (
-    <>
-      <div className="one">
-        <h1>React Calculator</h1>
+    <div>
+      <input placeholder="Sum" type="text" onChange={handleAdd} />
+      <input placeholder="Minus" type="text" onChange={handleMinus} />
+      <input placeholder="Maltiply" type="text" onChange={handleMaltiply} />
 
-        <h3>Addition</h3>
-        <input onChange={handleAdd} />
-        <h3>Substitution</h3>
-        <input onChange={handleSub}/>
-        <h3>Multiply</h3>
-        <input onChange={handleMul}/>
-        <h3>Divide</h3>
-        <input onChange={handleDiv}/><br/>
-      
-        <button onClick={handleClick}>Click</button>
-
-        <h2>{0}</h2>
-        <h2>{0}</h2>
-      </div>
-    </>
+      <button onClick={handleAddClick}>Submit</button>
+      {/* <button onClick={handleClear}>Clear</button> */}
+      <h2>{add}</h2>
+      <h3>{minus}</h3>
+      <h3>{maltiplay}</h3>
+    </div>
   );
 }
 
