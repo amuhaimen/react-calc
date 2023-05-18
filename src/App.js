@@ -1,6 +1,13 @@
 import React, { useState, useEffect, useRef } from "react";
+import { getDatabase, ref, set, push, onValue } from "firebase/database";
 
 const App = () => {
+
+  let [text, setText] = useState("");
+  let [taskArr, setTaskArr] = useState([]);
+  const db = getDatabase();
+
+
   const [commonState, setCommonState] = useState(0);
 
   // useRef state
@@ -20,22 +27,26 @@ const App = () => {
   //sum
   const handleAdd = (e) => {
     setSumState(e.target.value);
+    setText(e.target.value)
   };
 
   //minus
 
   let handleMinus = (e) => {
     setMinusState(e.target.value);
+    setText(e.target.value)
   };
   //maltiply
 
   let handleMaltiply = (e) => {
     setMaltiplyState(e.target.value);
+    setText(e.target.value)
   };
 
   //division
   let handleDivision = (e) => {
     setDivisionState(e.target.value);
+    setText(e.target.value)
   };
 
   // let handleClear = () => {
@@ -64,7 +75,27 @@ const App = () => {
       // previousDivisionRef.current = divisionState;
       // setMaltiplyState("");
     }
+
+    set(push(ref(db, "history/")), {
+      cal: text,
+    }).then(() => {
+      console.log("data sent");
+    });
+
   };
+
+
+  useEffect(() => {
+    const historyRef = ref(db, "history/");
+    onValue(historyRef, (snapshot) => {
+      let arr = [];
+      snapshot.forEach((item) => {
+        arr.push({ ...item.val(), id: item.key });
+      });
+      console.log(arr);
+      setTaskArr(arr);
+    });
+  }, []);
 
   return (
     <>
@@ -137,9 +168,11 @@ const App = () => {
           <h2 className="text-white font-inter font-bold text-[96px] pt-[63px]">
             History
           </h2>
-          <ul>
-            {/*  */}
-          </ul>
+          <ol>
+          {taskArr.map((item, index) => (
+          <li key={index}> {sumState} added by {item.cal} and total is {commonState}</li>
+        ))}
+          </ol>
         </div>
       </section>
     </>
