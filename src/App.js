@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 const App = () => {
-  const [commonState, setCommonState] = useState("");
+  const [commonState, setCommonState] = useState(0);
 
   // useRef state
   const [sumState, setSumState] = useState("");
@@ -68,14 +68,14 @@ const App = () => {
   return (
     <>
       <section className="flex">
-        <div className="left bg-[#36ADBD] w-[60%]  px-[39px]">
+        <div className="left bg-[#36ADBD] w-[60%]  px-[39px] relative">
           <div className="up flex">
             <div className=" w-[30%] pt-[80px]">
               <h3 className="text-center font-inter font-bold text-4xl text-white">
-                ADD
+              Addition
               </h3>
               <input
-                placeholder="Sum"
+                placeholder="Enter a number"
                 type="text"
                 onChange={handleAdd}
                 className="w-full py-[13px] pl-[20px] mt-[21px]"
@@ -91,55 +91,56 @@ const App = () => {
                 </div>
               </a>
             </div>
-            <h2>0</h2>
             <div className=" w-[30%] text-right pt-[80px]">
               <h3 className="text-center font-inter font-bold text-4xl text-white">
-                Division
+              Division
               </h3>
               <input
-                placeholder="Division"
+                placeholder="Enter a number"
                 type="text"
                 onChange={handleDivision}
                 className="w-full py-[13px] pl-[20px] mt-[21px]"
               />
             </div>
           </div>
+          <div className="flex justify-center pt-[229px] pb-[229px]">
+            <h2 className="font-inter font-bold text-[96px] text-white">{commonState}</h2>
+            </div>
           <div className="down flex">
-            <div className=" w-[30%] pt-[500px] pb-[72px]">
+            <div className=" w-[30%] pb-[72px]">
               <h3 className="text-center font-inter font-bold text-4xl text-white">
-                Minus
+              Substraction
               </h3>
               <input
-                placeholder="Minus"
+                placeholder="Enter a number"
                 type="text"
                 onChange={handleMinus}
                 className="w-full py-[13px] pl-[20px] mt-[21px]"
               />
             </div>
             <div className=" w-[39%] "></div>
-            <div className=" w-[30%]  pt-[500px] pb-[72px]">
+            <div className=" w-[30%] pb-[72px]">
               <h3 className="text-center font-inter font-bold text-4xl text-white">
                 Multiplication
               </h3>
               <input
-                placeholder="Maltiply"
+                placeholder="Enter a number"
                 type="text"
                 onChange={handleMaltiply}
-                className="w-full py-[13px] pl-[20px] text-right mt-[21px]"
+                className="w-full py-[13px] pl-[20px]  mt-[21px]"
               />
             </div>
           </div>
         </div>
-        <div className="right bg-[#36ADBD] w-[40%] h-[878px] text-center">
+        <div className="right bg-[#36ADBD] w-[40%]  text-center">
           <h2 className="text-white font-inter font-bold text-[96px] pt-[63px]">
-            History list
+            History
           </h2>
           <ul>
-            <li>{commonState}</li>
+            {/*  */}
           </ul>
         </div>
       </section>
-      <h1>Main value: {commonState} </h1>
     </>
   );
 };
