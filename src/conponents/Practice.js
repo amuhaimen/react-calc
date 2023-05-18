@@ -33,23 +33,26 @@ function App() {
       // console.log(parseInt(previousSumRef.current) + parseInt(sumState));
       previousSumRef.current = sumState;
       console.log("pascche");
-      
+
       // setSumState("");
     } else if (sumState === "") {
       setMinus(parseInt(previousSumRef.current) - parseInt(minusStare));
-      console.log("ami int:", parseInt(previousSumRef.current) - parseInt(minusStare));
+      console.log(
+        "ami int:",
+        parseInt(previousSumRef.current) - parseInt(minusStare)
+      );
       previousMinusRef.current = minusStare;
       // setMinusState("");
       console.log("pacche too");
-    } 
-    
-    if(true) {
-      console.log(maltiplyState ,previousSumRef.current);
+    }
+
+    if (true) {
+      console.log(maltiplyState, previousSumRef.current);
       setMaltiply(parseInt(previousSumRef.current) * parseInt(maltiplyState));
       console.log(parseInt(previousSumRef.current) * parseInt(maltiplyState));
       previousMaltiplyRef.current = maltiplyState;
       console.log("pacche three");
-      
+
       // setMaltiplyState("");
     }
   };
