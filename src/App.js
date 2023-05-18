@@ -1,3 +1,12 @@
+ 
+import React from 'react'
+import Practice from "./components/Practice"
+
+const App = () => {
+  return (
+    <Practice/>
+  )
+ 
 function App() {
  
   return (
@@ -52,6 +61,7 @@ function App() {
  
     </>
   );
+ 
 }
 
-export default App;
+export default App
