@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
+import History from "./conponents/History";
 
 const App = () => {
   const [commonState, setCommonState] = useState(0);
@@ -73,7 +74,7 @@ const App = () => {
           <div className="up flex">
             <div className=" w-[30%] pt-[80px]">
               <h3 className="text-center font-inter font-bold text-4xl text-white">
-              Addition
+                Addition
               </h3>
               <input
                 placeholder="Enter a number"
@@ -94,7 +95,7 @@ const App = () => {
             </div>
             <div className=" w-[30%] text-right pt-[80px]">
               <h3 className="text-center font-inter font-bold text-4xl text-white">
-              Division
+                Division
               </h3>
               <input
                 placeholder="Enter a number"
@@ -105,12 +106,14 @@ const App = () => {
             </div>
           </div>
           <div className="flex justify-center pt-[229px] pb-[229px]">
-            <h2 className="font-inter font-bold text-[96px] text-white">{commonState}</h2>
-            </div>
+            <h2 className="font-inter font-bold text-[96px] text-white">
+              {commonState}
+            </h2>
+          </div>
           <div className="down flex">
             <div className=" w-[30%] pb-[72px]">
               <h3 className="text-center font-inter font-bold text-4xl text-white">
-              Substraction
+                Substraction
               </h3>
               <input
                 placeholder="Enter a number"
@@ -137,10 +140,9 @@ const App = () => {
           <h2 className="text-white font-inter font-bold text-[96px] pt-[63px]">
             History
           </h2>
-          <ul>
-            {/*  */}
-          </ul>
+          <ul>{/*  */}</ul>
         </div>
+        <History />
       </section>
     </>
   );
