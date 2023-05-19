@@ -1,16 +1,42 @@
 import { useState, useEffect } from "react";
-import { getDatabase, ref, set, push, onValue } from "firebase/database";
+import {
+  getDatabase,
+  ref,
+  set,
+  push,
+  onValue,
+  update,
+} from "firebase/database";
 
 const History = () => {
   let [text, setText] = useState("");
   let [taskArr, setTaskArr] = useState([]);
+  let [editId, setEditId] = useState("");
+  let [edit, setEdit] = useState(false);
   const db = getDatabase();
 
   let handleSubmit = () => {
     set(push(ref(db, "history/")), {
-      task: text,
+      calc: text,
     }).then(() => {
       console.log("data sent");
+    });
+  };
+  let handleEdit = (item) => {
+    console.log(item.calc, item.id);
+    setEdit(true);
+    setText(item.calc);
+    setEditId(item.id);
+  };
+
+  let handleUpdate = () => {
+    console.log(editId);
+    update(ref(db, "history/" + editId), {
+      calc: text,
+    }).then(() => {
+      setEdit(false);
+      console.log(text);
+      setText("");
     });
   };
 
@@ -28,12 +54,19 @@ const History = () => {
 
   return (
     <div>
-      <input onChange={(e) => setText(e.target.value)} />
-      <button onClick={handleSubmit}>submit</button>
-
+      <input value={text} onChange={(e) => setText(e.target.value)} />
+      {edit ? (
+        <button onClick={handleUpdate}>Update</button>
+      ) : (
+        <button onClick={handleSubmit}>submit</button>
+      )}
       <ul>
         {taskArr.map((item) => (
-          <li> {item.task}</li>
+          <li>
+            {" "}
+            {item.calc}
+            <button onClick={() => handleEdit(item)}>Edit</button>
+          </li>
         ))}
       </ul>
     </div>

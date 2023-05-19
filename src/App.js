@@ -1,12 +1,15 @@
 import React, { useState, useEffect, useRef } from "react";
-import { getDatabase, ref, set, push, onValue } from "firebase/database";
+import { getDatabase, ref, set, push, onValue, update } from "firebase/database";
 
 const App = () => {
 
   let [text, setText] = useState("");
   let [taskArr, setTaskArr] = useState([]);
+  let [editId, setEditId] = useState("");
+  let [edit, setEdit] = useState(false);
   const db = getDatabase();
 
+  let [test, setTest] = useState(false)
 
   const [commonState, setCommonState] = useState(0);
 
@@ -20,9 +23,11 @@ const App = () => {
 
   //Maltiply state
   const [maltiplyState, setMaltiplyState] = useState("");
-
+  const previousMaltiplyRef = useRef(0);
+  
   //Maltiply state
   const [divisionState, setDivisionState] = useState("");
+  const previousDivisionRef = useRef(0);
 
   //sum
   const handleAdd = (e) => {
@@ -56,7 +61,7 @@ const App = () => {
 
   let handleAddClick = () => {
     if (minusStare === "" && maltiplyState === "" && divisionState === "") {
-      setCommonState(parseInt(previousSumRef.current) + parseInt(sumState));
+      setCommonState(parseInt(commonState) + parseInt(sumState));
       previousSumRef.current = sumState;
       // setSumState("");
     } else if (
@@ -64,17 +69,24 @@ const App = () => {
       maltiplyState === "" &&
       divisionState === ""
     ) {
-      setCommonState(parseInt(commonState) - parseInt(minusStare));
+      setCommonState(parseInt(commonState) - parseInt(minusStare)); 
       previousMinusRef.current = minusStare;
       // setMinusState("");
     } else if (sumState === "" && minusStare === "" && divisionState === "") {
       setCommonState(parseInt(commonState) * parseInt(maltiplyState));
+      previousMaltiplyRef.current = maltiplyState;
       // setMaltiplyState("");
     } else if (sumState === "" && minusStare === "" && maltiplyState === "") {
       setCommonState(parseInt(commonState) / parseInt(divisionState));
-      // previousDivisionRef.current = divisionState;
+      previousDivisionRef.current = divisionState;
       // setMaltiplyState("");
     }
+
+
+    setTest(test = true)
+    console.log(test = true);
+
+
 
     set(push(ref(db, "history/")), {
       cal: text,
@@ -82,6 +94,25 @@ const App = () => {
       console.log("data sent");
     });
 
+  };
+
+
+  let handleEdit = (item) => {
+    console.log(item.cal, item.id);
+    setEdit(true);
+    setText(item.cal);
+    setEditId(item.id);
+  };
+
+  let handleUpdate = () => {
+    console.log(editId);
+    update(ref(db, "history/" + editId), {
+      cal: text,
+    }).then(() => {
+      setEdit(false);
+      console.log(text);
+      setText("");
+    });
   };
 
 
@@ -110,6 +141,7 @@ const App = () => {
                 placeholder="Enter a number"
                 type="text"
                 onChange={handleAdd}
+                
                 className="w-full py-[13px] pl-[20px] mt-[21px]"
               />
             </div>
@@ -164,14 +196,28 @@ const App = () => {
             </div>
           </div>
         </div>
-        <div className="right bg-[#36ADBD] w-[40%]  text-center">
-          <h2 className="text-white font-inter font-bold text-[96px] pt-[63px]">
+        <div className="right bg-[#36ADBD] w-[40%]  ">
+          <h2 className="text-white font-inter font-bold text-[96px] pt-[63px] text-center">
             History
           </h2>
-          <ol>
+          <ol className="text-4xl text-white ">
+            {/* <input className="text-black" value={text}  /> */}
           {taskArr.map((item, index) => (
-          <li key={index}> {sumState} added by {item.cal} and total is {commonState}</li>
+          <li key={index} className="mt-2 "> {index+1}. added by {item.cal} and total is {commonState}
+           <button className="bg-black px-4 py-2 rounded-lg" onClick={() => handleEdit(item)}>Edit</button>
+           <button className="bg-green-400 mx-5 px-4 py-2 rounded-lg" onClick={handleUpdate}>Update</button>
+
+           </li>
         ))}
+{/*         
+        {test && 
+        <>
+          <li>0 added by {previousSumRef.current} and total is {commonState}</li>
+        <li>{commonState} added by {previousMinusRef.current} and total is {commonState}</li>
+        <li>{commonState} added by {previousMaltiplyRef.current} and total is {commonState}</li>
+        <li>{commonState} added by {previousDivisionRef.current} and total is {commonState}</li>
+        </>
+} */}
           </ol>
         </div>
       </section>
