@@ -201,12 +201,16 @@ const App = () => {
             History
           </h2>
           <ol className="text-4xl text-white ">
-            {/* <input className="text-black" value={text}  /> */}
+            <input className="text-black" value={text}  onChange={(e) => setText(e.target.value)}/>
           {taskArr.map((item, index) => (
           <li key={index} className="mt-2 "> {index+1}. added by {item.cal} and total is {commonState}
-           <button className="bg-black px-4 py-2 rounded-lg" onClick={() => handleEdit(item)}>Edit</button>
-           <button className="bg-green-400 mx-5 px-4 py-2 rounded-lg" onClick={handleUpdate}>Update</button>
 
+            {edit 
+            ?
+            <button className="bg-green-400 mx-5 px-4 py-2 rounded-lg" onClick={handleUpdate}>Update</button>
+            :
+            <button className="bg-black px-4 py-2 rounded-lg ml-8" onClick={() => handleEdit(item)}>Edit</button>
+            }
            </li>
         ))}
 {/*         
